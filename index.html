@@ -3,17 +3,137 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style>
+
+	</style>
 </head>
 <body>
-	<div>第1个div</div>
-	<div>第2个div</div>
-	<div>第3个div</div>
-	<div>第4个div</div>
-	<div>第5个div</div>
-	<div>第6个div</div>
-	<div>第7个div</div>
-	<div>第8个div</div>
-	<div>第9个div</div>
-	<div>第10个div</div>
+
+<script>
+
+	/*
+		- DOM
+			- 查找 , 遍历一个父元素的全部子元素
+			- Case {
+				
+				HTML:
+					<span>hello world</span>
+					<ul id="nav">
+						<li>电影</li>
+						<li>综艺</li>
+						<li>
+							<ul>
+								<li>跑男</li>
+								<li>爸爸</li>
+								<li>极限</li>
+							</ul>
+						</li>
+						<li>剧集</li>
+					</ul>
+
+				Js:
+					// 遍历给定父元素下直接子节点
+						function getChildren(parent){
+							// 如果parent不是文本节点 输出 节点名 ,否则 输出节点值
+							console.log(parent.nodeType != 3?parent.nodeName:parent.nodeValue);
+							// 遍历子节点
+							var children = parent.childNodes;
+
+							// elem.childNodes和elem.children返回的都是动态集合: 
+							// 动态集合(live collection): 不实际存储元素和属性值
+							// 每次访问集合都重新查找DOM树 , 效率低
+							// 用Len保存 children.length  不用每次for 都循环一次dom 
+							for(var i = 0,len=children.length;i<len;i++){
+								var child = children[i];
+								// console.log(child.nodeType != 3?child.nodeName:child.nodeValue);
+								// 递归遍历 ; 对父元素每个子节点调用 相同的函数
+								getChildren(child);
+							}
+						}
+						getChildren(document.body);
+
+					// 方法二 创建迭代器对象
+						function getChildren2(parent){
+							var iterator = document.createNodeIterator(parent,NodeFilter.SHOW_ALL,null,false);
+							// 用循环反复调用迭代器nextNode()跳向下一个节点
+							var node;
+							while((node=iterator.nextNode())!=null){
+								console.log(node.nodeType!=3?node.nodeName:node.nodeValue);
+							}
+						}
+						getChildren2(document.body);				
+
+
+			}
+
+			- 修改
+				- 属性
+					- Case {
+							HTML:
+								<a class="btn" href="www.baidu.com">超链接</a>
+
+							JS:
+								var a = document.getElementsByClassName('btn')[0];
+								
+								// 核心DOM
+								var domClass = a.getAttribute('class');
+								console.log(domClass);
+
+								// 简化HTML DOM
+									// 注意 , 不能直接获取class , 这与EC原型冲突,只能className
+								var calss = a.className;
+								console.log(calss);
+					}
+
+				- 内联样式
+					- 内联样式
+						- Case {
+							
+							HTML:
+								<div style="width: 200px;height: 200px;background-color: red;border-radius: 50%;padding:  100px ;" class="test">测试</div>
+
+							JS:	
+								var oDiv = document.getElementsByClassName('test')[0];
+								// 获取单一内联样式
+								var background = oDiv.style.backgroundColor;
+
+								console.log(background);
+
+								// 获取完整样式 .. 是所有 , 不止你设置的
+								var allStyle = getComputedStyle(oDiv);
+								console.log(allStyle);
+						}
+		BOM
+			- window
+				- 打开和关闭窗口
+				    - 打开: open("url","name")
+				    - 关闭: close();		
+				- 打开一个连接，共有几种方式： 
+					- Case {
+						HTML:	
+							<a href="http://tmooc.cn" target="_self">可后退,当前窗口</a>
+							<a href="javascript:open('http://tmooc.cn','_self')">可后退,当前窗口</a>
+							
+							<br>
+							
+							<a href="http://tmooc.cn" target="_blank">可后退,打开多个</a>
+							<a href="javascript:open('http://tmooc.cn','_blank')">可后退,打开多个</a>
+
+							<br>
+							
+							<a href="http://tmooc.cn" target="tmooc">不能后退,只能打开一个</a>
+							<a href="javascript:open('http://tmooc.cn','tmooc')">不能后退,只能打开一个</a>
+
+							<br>
+							
+							<a href="javascript:location.replace('http://tmooc.cn')">当前窗口,禁止后退</a>
+					}
+				- 定时器:	
+	html:				
+	*/
+	
+
+
+</script>
 </body>
 </html>
