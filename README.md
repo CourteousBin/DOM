@@ -106,6 +106,7 @@
 >	disabled selected checked	不能用核心DOM操作！只能用html DOM
 >	attribute  vs  property
 >	attribute指出现在开始标签中的属性 , property保存在内存中的对象中的属性 , 核心DOM只能操作出现在页面上的attribute属性 , 无法操作未出现在页面上的内存中的property属性 , HTML DOM可访问内存中的property属性
+>	在jQuery中 .prop() 才能操作三大状态 .attr只能操作核心DOM
 
 >自定义属性:
 
@@ -285,4 +286,59 @@
 
 		方法:
 			location.href="url"	在当前页面打开新url	
+			location.replace('url') 在当前窗口打开新Url,禁止后退
+			location.reload(false/true) 重新加载页面 , 参数:force(强制)是否绕过缓存,直接从服务器获取数据,默认false
+
+>	navigator
+		概述:封装浏览器配置信息的对象(没有标准)
+		.cookieEnable 	判断是否启用了cookie
+		.plugins 		封装了浏览器安装的所有插件信息
+		.userAgent		包含了浏览器名称,内核版本号
+
+>	screen
+		概述:获得浏览器显示设备的分辨率大小
+		利用screen判断设备类型: 
+		lg(大屏)		分辨率>1200
+		md(中配)		分辨率>992	Pc
+		sm(小屏)		分辨率>768	pad
+		xs(超小屏)	分辨率<768	phone
+
+>	event
+		概述:浏览器自动触发或者用户手动触发页面状态的改变
+		希望事件触发时,调用一个函数,将函数绑定在属性上
+		缺点:不符合内容与行文分离原则,不便于维护!
+		优化:
+			1.为事件赋值一个函数 ANY.on事件名=fun;		不要加(),因为是回调的一种 , fun 中 this-> ANY
+			2.addEventListener(事件,function(){},true/false) 第三个参数如果为true , 在事件触发过程中优先执行 	
+		
+		事件模型:
+			1.捕获:由外向内,记录各级父元素上绑定的相同事件	(有事件才捕获)
+			2.目标触发:触发事件
+			3.冒泡:向父级冒泡,触发事件处理函数
+
+		事件对象:
+			概述:当事件发生时,自动创建的,封装所有事件信息的对象 
+			获取:function处理函数(e){} 自动获得事件对象
+
+		操作:
+			取消冒泡:e.stopPropagation();
+			浏览器在事件发生前,会遍历所有注册的事件监听,监听越多,遍历越慢,网页响应速度也慢
+			如果多个子元素绑定相同的事件时,只需要在父元素集中绑定一次,所有子元素共用即可
+
+			难点:
+				1.如何获得目标,this随着冒泡向父元素移动 ; 解决e.target 始终保存着目标元素,不随着冒泡改变
+				2.阻止浏览器默认行为:e.preventDefault();
+
+>	事件坐标系:
+		概述:当事件发生时,鼠标的位置
+			相对于屏幕左上角:e.screenX 	e.screenY
+			相对于文档显示左上角	e.clientX 	e.clienY
+			相对于事件绑定的元素	e.offsetX 	e.offsetY
+
+		页面滚动:
+			事件:document.body.onscroll
+			获得页面高度:document.body.scrollTop
+			onscroll中的this -> window
+		
+
 
